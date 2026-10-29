@@ -1,49 +1,39 @@
-
-import { useState } from "react";
-
-export default function Sidebar() {
-  const [menuAberto, setMenuAberto] = useState(false);
-
-  const itens = [
-    "Dashboard",
-    "Configurações",
-  ];
+export default function Sidebar({paginaAtual,
+  onMudarPagina,onClose}) {
+  const itens = ["Dashboard", "Configurações"];
 
   return (
-    <div className="min-h-screen ">
-      <button
-        type="button"
-        onClick={() => setMenuAberto(!menuAberto)}
-        className="m-3 rounded-lg  px-4 py-2 text-white sm:hidden"
-      >
-        {menuAberto ? "Fechar menu" : "Abrir menu"}
-      </button>
-
-      <aside
-        className={`fixed left-0 top-0 z-40 h-screen w-64 bg-gray-200 p-5  ${
-          menuAberto ? "translate-x-0" : "-translate-x-full"
-        } transition-transform sm:translate-x-0`}
-      >
-        <h2 className="mb-6 text-xl font-bold">
-          Painel Administrativo
+    <aside
+      className={`fixed bottom-0 left-0 top-0 z-50 w-64 border-r border-slate-300 bg-slate-200 p-5 transition-transform duration-300 `} >
+        <h2 className="mb-4 text-xl font-bold text-slate-900">
+          Analisador Local
         </h2>
+
+        <hr className="mb-3 h-px w-full border-0 bg-slate-300" />
 
         <nav>
           <ul className="space-y-2">
             {itens.map((item) => (
               <li key={item}>
-                <a
-                  href="#"
-                  onClick={() => setMenuAberto(false)}
-                  className="block rounded-lg px-4 py-3 hover:bg-gray-700"
+                <button
+                  type="button"
+                  onClick={() => {
+                    onMudarPagina(item);
+                    onClose();
+                  }}
+                  className={`block w-full rounded-lg px-4 py-3 text-left transition ${
+                    paginaAtual === item
+                      ? "bg-slate-300 font-semibold text-slate-900"
+                      : "text-slate-700 hover:bg-slate-50 hover:text-slate-900"
+                  }`}
                 >
                   {item}
-                </a>
+                </button>
               </li>
             ))}
           </ul>
         </nav>
-      </aside>
-    </div>
+    </aside>
   );
 }
+

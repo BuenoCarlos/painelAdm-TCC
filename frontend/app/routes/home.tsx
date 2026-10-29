@@ -1,5 +1,7 @@
 import type { Route } from "./+types/home";
 import Sidebar from "../components/sidebar";
+import Navbar from "../components/navbar";
+import { useState } from "react";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,13 +11,24 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+  const [paginaAtual, setPaginaAtual] = useState("Dashboard");
+  const paginas = {
+    Dashboard: "Visão geral do monitoramento",
+    Configurações: "Configurações do sistema"
+  }
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-gray-50">
-      {/* Barra Lateral do seu Painel */}
-      <Sidebar />
-      
-      {/* Conteúdo Principal */}
-      <main className="flex-1 overflow-y-auto p-6">
+    <div className="min-h-screen bg-white">
+      <Sidebar 
+        paginaAtual={paginaAtual}
+        onMudarPagina={setPaginaAtual}
+      />
+
+      <Navbar 
+        titulo={paginas[paginaAtual]}
+      />
+
+      <main className="min-h-screen px-4 pt-20 sm:ml-64 sm:px-6 sm:pt-24">
+        {/* Conteúdo da página */}
       </main>
     </div>
   );
